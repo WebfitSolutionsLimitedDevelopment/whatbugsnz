@@ -131,7 +131,7 @@ frontend:
 
   - task: "Route rendering - Top 10 page (/top-10)"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/pages/Top10.jsx"
     stuck_count: 0
     priority: "high"
@@ -140,6 +140,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "❌ FAIL - Top 10 page only shows 3 bug cards instead of 10. The page heading 'Top 10 Bugs' is correct, but the grid only displays 3 cards. This suggests the mockData may not have 10 bugs marked with is_top_10: true, or the filtering logic is incorrect."
+        - working: true
+          agent: "testing"
+          comment: "✅ PASS - Re-tested Top 10 page. Exactly 10 bug cards are now displayed in a 3-column grid. All cards show correct categories and bug scores: Healthcare & GP Access (84.8), Tradies & Home Services (83.5), Housing & Renting (83.3), Elderly Care (80.5), Small Business & SMEs (79.0), Immigration & Settlement (78.5), Jobs & Careers (76.5), Transport & Parking (73.0), Community & Events (72.8), Students & Education. Issue FIXED."
 
   - task: "Route rendering - All Bugs page (/all-bugs)"
     implemented: true
@@ -203,7 +206,7 @@ frontend:
 
   - task: "Scratch card interaction"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/ScratchCard.jsx"
     stuck_count: 0
     priority: "high"
@@ -212,10 +215,13 @@ frontend:
         - working: false
           agent: "testing"
           comment: "❌ CRITICAL BUG - Scratch card canvas appears with silver gradient and 'SCRATCH TO REVEAL' text. Scratching works (progress shows 11%), and the silver erases where dragged. However, the canvas does NOT fully clear after reaching the 40% threshold. The canvas remains visible and intercepts pointer events, blocking clicks on the underlying buttons ('Show Another Bug', 'View Full Bug', 'Share', 'Save'). Error: '<canvas> intercepts pointer events'. The revealed content is visible but not clickable. The onReveal callback may be firing, but the canvas is not being removed from the DOM or having its z-index/visibility changed properly."
+        - working: true
+          agent: "testing"
+          comment: "✅ PASS - Re-tested scratch card functionality. Simulated extensive scratching with zigzag pattern covering >40% of canvas. Progress text correctly increments ('Keep scratching… 0%'). After threshold reached, canvas properly fades to opacity:0 with pointer-events:none, allowing all underlying buttons to be clickable. 'Show Another Bug' button works correctly - new bug appears and scratch cover resets to opacity:1. 'View Full Bug' button successfully navigates to /bug/<slug> page. Issue FIXED."
 
   - task: "All Bugs page - expand/collapse functionality"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/pages/AllBugs.jsx"
     stuck_count: 0
     priority: "high"
@@ -224,6 +230,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "❌ FAIL - Clicking the + button on bug rows does not expand the panel. The button is clickable (24 expand buttons found), but the expanded white panel with 'Problem detail', 'Who is affected', 'Why current solutions are weak', 'Possible solution direction', and 'Scores breakdown' does not appear. The expanded state is not being set correctly."
+        - working: true
+          agent: "testing"
+          comment: "✅ PASS - Re-tested expand/collapse functionality. Found 20 bug rows. Clicking + icon on first row successfully expands white panel containing all required sections: 'Problem detail', 'Who is affected', 'Why current solutions are weak', 'Possible solution direction', and 'Scores' with breakdown (Pain, Market Size, Opportunity Gap, Frequency, Bug Score). Icon correctly changes from + to − when expanded. Clicking again collapses panel and icon returns to +. Clicking + on second row expands only that row (first stays collapsed). Issue FIXED."
 
   - task: "All Bugs page - filters functionality"
     implemented: true
@@ -312,19 +321,18 @@ frontend:
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 1
+  test_sequence: 2
   run_ui: true
   test_date: "2025-05-28"
 
 test_plan:
-  current_focus:
-    - "Scratch card interaction - canvas blocking clicks"
-    - "All Bugs page expand/collapse"
-    - "Top 10 page bug count"
+  current_focus: []
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
     - agent: "testing"
       message: "Comprehensive frontend testing completed. Found 2 CRITICAL issues: (1) Scratch card canvas does not clear after auto-reveal, blocking all button clicks underneath. (2) All Bugs page expand/collapse does not work - clicking + button does not show the expanded panel. Also found 1 data issue: Top 10 page only shows 3 bugs instead of 10. All other functionality (routes, navbar, forms, responsive, footer, console) works correctly. No backend testing performed as this is frontend-only MVP."
+    - agent: "testing"
+      message: "RE-TEST COMPLETE (2025-05-28): All three previously reported critical issues have been FIXED by main agent. (1) Scratch card: Canvas now properly fades to opacity:0 with pointer-events:none after 40% threshold, all buttons clickable, reset works correctly. (2) Top 10 page: Now displays exactly 10 bug cards with correct categories and scores. (3) All Bugs expand/collapse: Fully functional - panels expand/collapse correctly, icons toggle between +/−, only one row expands at a time. No console errors detected. Footer present on all pages. App is ready for production."

@@ -184,25 +184,25 @@ const ScratchCard = ({
         </div>
       </div>
 
-      {/* Scratch canvas overlay */}
-      {!revealed && (
-        <canvas
-          ref={canvasRef}
-          width={size.w}
-          height={size.h}
-          className="absolute inset-0 w-full h-full rounded-2xl cursor-grab active:cursor-grabbing touch-none z-20"
-          onMouseDown={start}
-          onMouseMove={scratch}
-          onMouseUp={end}
-          onMouseLeave={end}
-          onTouchStart={start}
-          onTouchMove={scratch}
-          onTouchEnd={end}
-        />
-      )}
+      {/* Scratch canvas overlay — always mounted but disabled when revealed for click pass-through safety */}
+      <canvas
+        ref={canvasRef}
+        width={size.w}
+        height={size.h}
+        className={`absolute inset-0 w-full h-full rounded-2xl touch-none transition-opacity duration-300 z-20 ${
+          revealed ? 'opacity-0 pointer-events-none' : 'opacity-100 cursor-grab active:cursor-grabbing'
+        }`}
+        onMouseDown={start}
+        onMouseMove={scratch}
+        onMouseUp={end}
+        onMouseLeave={end}
+        onTouchStart={start}
+        onTouchMove={scratch}
+        onTouchEnd={end}
+      />
 
       {!revealed && (
-        <div className="absolute -bottom-7 left-0 right-0 text-center text-xs text-white/50">
+        <div className="absolute -bottom-7 left-0 right-0 text-center text-xs text-white/50 z-10">
           {progress < threshold ? `Keep scratching… ${progress}%` : 'Revealing…'}
         </div>
       )}
