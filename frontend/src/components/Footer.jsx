@@ -21,7 +21,9 @@ const Footer = () => {
             surface. Find the problems worth solving.
           </p>
 
-          <p className="mt-6 text-xs text-white/40">A Webfit News initiative</p>
+          <p className="mt-6 text-xs text-white/40">
+  A Webfit News initiative, built for Kiwi founders, builders and communities.
+</p>
         </div>
 
         <div>
@@ -88,16 +90,17 @@ const Footer = () => {
           </p>
 
           <p className="text-xs text-white/40">
-            Powered by{' '}
-            <a
-              href="https://webfitt.co.nz"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-white/70 hover:text-[#39FF14] transition-colors"
-            >
-              Webfit Solutions Limited
-            </a>
-          </p>
+  Powered by{' '}
+  <a
+    href="https://webfitt.co.nz"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-semibold text-white/70 hover:text-[#39FF14] transition-colors"
+  >
+    Webfit Solutions Limited
+  </a>
+  {' '}for Webfit News.
+</p>
         </div>
       </div>
     </footer>
